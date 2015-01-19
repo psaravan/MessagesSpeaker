@@ -1,4 +1,4 @@
-package com.psaravan.notification.speaker;
+package com.psaravan.messages.speaker;
 
 import android.app.Application;
 import android.content.Context;
@@ -13,7 +13,7 @@ import android.content.SharedPreferences;
 public class LocalApp extends Application {
 
     private static Context mContext;
-    private static NotificationSpeakerService mNotificationSpeakerService;
+    private static SpeakerService mSpeakerService;
     private static SharedPreferences mSharedPreferences;
 
     // SharedPreferences constants/keys.
@@ -29,17 +29,17 @@ public class LocalApp extends Application {
         return mContext;
     }
 
-    public static NotificationSpeakerService getForegroundService() {
-        return mNotificationSpeakerService;
+    public static SpeakerService getForegroundService() {
+        return mSpeakerService;
     }
 
     public static void startForegroundService() {
-        Intent intent = new Intent(getContext(), NotificationSpeakerService.class);
+        Intent intent = new Intent(getContext(), SpeakerService.class);
         getContext().startService(intent);
     }
 
-    public static void setForegroundService(NotificationSpeakerService service) {
-        mNotificationSpeakerService = service;
+    public static void setForegroundService(SpeakerService service) {
+        mSpeakerService = service;
     }
 
     public static SharedPreferences getSharedPreferences() {

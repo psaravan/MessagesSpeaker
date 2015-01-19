@@ -1,4 +1,4 @@
-package com.psaravan.notification.speaker;
+package com.psaravan.messages.speaker;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import java.util.UUID;
  *
  * @author Saravan Pantham
  */
-public class NotificationSpeaker implements TextToSpeech.OnInitListener {
+public class Speaker implements TextToSpeech.OnInitListener {
 
     private Context mContext;
     private TextToSpeech mTTS;
@@ -27,7 +27,7 @@ public class NotificationSpeaker implements TextToSpeech.OnInitListener {
     private String mText2 = null;
     private String mText3 = null;
 
-    public NotificationSpeaker(Context context) {
+    public Speaker(Context context) {
         mContext = context;
         mTTS = new TextToSpeech(mContext, this);
         mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);

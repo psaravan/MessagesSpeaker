@@ -1,4 +1,4 @@
-package com.psaravan.notification.speaker;
+package com.psaravan.messages.speaker;
 
 import android.app.PendingIntent;
 import android.app.Service;
@@ -13,11 +13,11 @@ import android.widget.Toast;
  *
  * @author Saravan Pantham
  */
-public class NotificationSpeakerService extends Service {
+public class SpeakerService extends Service {
 
     private static final int NOTIFICATION_ID = 24324; //Some random int for the id.
     private TextMessageReceiver mTextMessageReceiver;
-    private NotificationSpeaker mNotificationSpeaker;
+    private Speaker mNotificationSpeaker;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -31,7 +31,7 @@ public class NotificationSpeakerService extends Service {
         startForeground();
 
         //Initialize the TTS Engine.
-        mNotificationSpeaker = new NotificationSpeaker(this);
+        mNotificationSpeaker = new Speaker(this);
 
         // Register the text messages receiver.
         mTextMessageReceiver = new TextMessageReceiver();
@@ -64,7 +64,7 @@ public class NotificationSpeakerService extends Service {
         startForeground(NOTIFICATION_ID, builder.build());
     }
 
-    public NotificationSpeaker getNotificationSpeaker() {
+    public Speaker getNotificationSpeaker() {
         return mNotificationSpeaker;
     }
 

@@ -1,4 +1,4 @@
-package com.psaravan.notification.speaker;
+package com.psaravan.messages.speaker;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

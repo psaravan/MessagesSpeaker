@@ -1,4 +1,4 @@
-package com.psaravan.notification.speaker;
+package com.psaravan.messages.speaker;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;

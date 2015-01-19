@@ -1,10 +1,9 @@
-package com.psaravan.notification.speaker;
+package com.psaravan.messages.speaker;
 
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.util.Log;
 
 /**
  * Preferences page fragment.

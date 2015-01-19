@@ -1,4 +1,4 @@
-package com.psaravan.notification.speaker;
+package com.psaravan.messages.speaker;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
-import android.util.Log;
 
 /**
  * BroadcastReceiver for text messages.
@@ -51,9 +50,6 @@ public class TextMessageReceiver extends BroadcastReceiver {
     }
 
     public void speakMessage(String sender, String messageBody) {
-
-        if (mAudioManager.isWiredHeadsetOn()==false)
-            return;
 
         final String text1 = mContext.getString(R.string.new_message_from) + " " + getContactName(sender) + ".";
         final String text2 = messageBody + ".";
