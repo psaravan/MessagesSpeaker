@@ -5,4 +5,11 @@
         android:title="@string/speak_only_on_headset"
         android:summary="@string/speak_only_on_headset_info"
         android:defaultValue="true" />
+
+    <CheckBoxPreference
+        android:key="SPEAK_ONLY_WHEN_LOCKED"
+        android:title="@string/speak_only_when_locked"
+        android:summary="@string/speak_only_when_locked_info"
+        android:defaultValue="true" />
+
 </PreferenceScreen>

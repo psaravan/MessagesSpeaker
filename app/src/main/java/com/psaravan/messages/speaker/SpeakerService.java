@@ -17,7 +17,7 @@ public class SpeakerService extends Service {
 
     private static final int NOTIFICATION_ID = 24324; //Some random int for the id.
     private TextMessageReceiver mTextMessageReceiver;
-    private Speaker mNotificationSpeaker;
+    private Speaker mSpeaker;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -31,7 +31,7 @@ public class SpeakerService extends Service {
         startForeground();
 
         //Initialize the TTS Engine.
-        mNotificationSpeaker = new Speaker(this);
+        mSpeaker = new Speaker(this);
 
         // Register the text messages receiver.
         mTextMessageReceiver = new TextMessageReceiver();
@@ -64,8 +64,8 @@ public class SpeakerService extends Service {
         startForeground(NOTIFICATION_ID, builder.build());
     }
 
-    public Speaker getNotificationSpeaker() {
-        return mNotificationSpeaker;
+    public Speaker getSpeaker() {
+        return mSpeaker;
     }
 
     @Override
@@ -75,5 +75,4 @@ public class SpeakerService extends Service {
         LocalApp.setForegroundService(null);
         unregisterReceiver(mTextMessageReceiver);
     }
-
 }

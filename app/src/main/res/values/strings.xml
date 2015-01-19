@@ -11,5 +11,7 @@
 
     <string name="speak_only_on_headset">Speak only on headset</string>
     <string name="speak_only_on_headset_info">Messages will only be spoken when a headset is plugged in.</string>
+    <string name="speak_only_when_locked">Speak only when locked</string>
+    <string name="speak_only_when_locked_info">Messages will only be spoken when your device is locked.</string>
 
 </resources>

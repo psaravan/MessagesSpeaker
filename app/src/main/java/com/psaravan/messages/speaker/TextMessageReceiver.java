@@ -1,5 +1,6 @@
 package com.psaravan.messages.speaker;
 
+import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,20 @@ public class TextMessageReceiver extends BroadcastReceiver {
         mContext = context;
         mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 
+        // Check if the user only wants messages to be spoken when a headset is plugged in.
+        boolean headsetOnly = LocalApp.getSharedPreferences().getBoolean(LocalApp.SPEAK_ONLY_ON_HEADSET, true);
+        if (headsetOnly && !mAudioManager.isWiredHeadsetOn()) {
+            return;
+        }
+
+        // Check if the user only wants messages to be spoken when the device is locked.
+        KeyguardManager km = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+        boolean isLocked = km.inKeyguardRestrictedInputMode();
+
+        if (!isLocked && LocalApp.getSharedPreferences().getBoolean(LocalApp.SPEAK_ONLY_WHEN_LOCKED, true)) {
+            return;
+        }
+
         if (intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")) {
 
             // Get the text message data that was received.
@@ -33,36 +48,45 @@ public class TextMessageReceiver extends BroadcastReceiver {
 
             // Grab the messages from the bundle.
             SmsMessage[] messages;
-            String sender;
+            String sender = null;
 
             // Extract the messages and the sender from the raw message data.
             if (bundle != null) {
                 Object[] pdus = (Object[]) bundle.get("pdus");
                 messages = new SmsMessage[pdus.length];
+                String previousSender = sender;
                 for (int i = 0; i < messages.length; i++) {
                     messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
+                    previousSender = sender;
                     sender = messages[i].getOriginatingAddress();
                     String messageBody = messages[i].getMessageBody();
-                    speakMessage(sender, messageBody);
+
+                    if (messages.length==1)
+                        speakMessage(sender, messageBody, true);
+                    else
+                        if (i > 0 && !previousSender.equals(sender))
+                            speakMessage(sender, messageBody, true);
+                        else if (i > 0 && previousSender.equals(sender))
+                            speakMessage(sender, messageBody, false);
+                        else
+                            speakMessage(sender, messageBody, true);
                 }
             }
         }
     }
 
-    public void speakMessage(String sender, String messageBody) {
+    public void speakMessage(String sender, String messageBody, boolean newMessage) {
+        String text1 = "";
+        String text2 = "";
+        if (newMessage) {
+            text1 += mContext.getString(R.string.new_message_from) + " " + getContactName(sender);
+            text2 += messageBody + ".";
+        } else {
+            text1 += messageBody + ".";
+            text2 = null;
+        }
 
-        final String text1 = mContext.getString(R.string.new_message_from) + " " + getContactName(sender) + ".";
-        final String text2 = messageBody + ".";
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                if (LocalApp.getForegroundService()!=null)
-                    LocalApp.getForegroundService().getNotificationSpeaker().speak(text1, text2, null);
-            }
-        }, 3000);
+        LocalApp.getForegroundService().getSpeaker().speak(text1, text2, null);
     }
 
     private String getContactName(String phone){

@@ -31,5 +31,16 @@ public class SettingsFragment extends PreferenceFragment {
                 return true;
             }
         });
+
+        mSpeakOnlyOnHeadset = (CheckBoxPreference) getPreferenceManager().findPreference("SPEAK_ONLY_WHEN_LOCKED");
+        mSpeakOnlyOnHeadset.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                LocalApp.getSharedPreferences().edit()
+                        .putBoolean(LocalApp.SPEAK_ONLY_WHEN_LOCKED, (Boolean) newValue)
+                        .commit();
+                return true;
+            }
+        });
     }
 }

@@ -18,6 +18,7 @@ public class LocalApp extends Application {
 
     // SharedPreferences constants/keys.
     public static final String SPEAK_ONLY_ON_HEADSET = "SPEAK_ONLY_ON_HEADSET";
+    public static final String SPEAK_ONLY_WHEN_LOCKED = "SPEAK_ONLY_WHEN_LOCKED";
 
     public void onCreate(){
         super.onCreate();
