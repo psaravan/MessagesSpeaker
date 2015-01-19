@@ -6,6 +6,5 @@ Background app for Android that speaks your text messages as they come in. Curre
 * Ability to speak only when the device locked (or all the time).
 
 ## Planned/In-Progress features:
-* Ability to pick language to speak in.
+* Ability to pick the language to speak in.
 * Ability to switch between male and female voices.
-* And more. Once I think of them.
