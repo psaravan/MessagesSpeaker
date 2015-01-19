@@ -50,9 +50,16 @@ public class NotificationSpeaker implements TextToSpeech.OnInitListener {
         mText2 = text2;
         mText3 = text3;
 
-        mAudioManager.requestAudioFocus(audioFocusListener,
-                                        AudioManager.STREAM_MUSIC,
-                                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK);
+        int focusChange = mAudioManager.requestAudioFocus(audioFocusListener,
+                                                          AudioManager.STREAM_NOTIFICATION,
+                                                          AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK);
+
+        if (focusChange==AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            Log.e("DEBUG", ">>>>gained!");
+            speak(mText1, mText2, mText3, true);
+        } else {
+            Log.e("DEBUG", ">>>" + focusChange);
+        }
     }
 
     /**
@@ -66,7 +73,7 @@ public class NotificationSpeaker implements TextToSpeech.OnInitListener {
         mText3 = text3;
 
         if (Build.VERSION.SDK_INT==Build.VERSION_CODES.LOLLIPOP) {
-            mTTS.playSilentUtterance(1500, TextToSpeech.QUEUE_ADD, UUID.randomUUID().toString());
+            //mTTS.playSilentUtterance(1500, TextToSpeech.QUEUE_ADD, UUID.randomUUID().toString());
             mTTS.speak(text1, TextToSpeech.QUEUE_ADD, null, UUID.randomUUID().toString());
             mTTS.playSilentUtterance(700, TextToSpeech.QUEUE_ADD, UUID.randomUUID().toString());
 
@@ -83,7 +90,7 @@ public class NotificationSpeaker implements TextToSpeech.OnInitListener {
         } else {
             HashMap<String, String> hash = new HashMap<>();
             hash.put(TextToSpeech.Engine.KEY_PARAM_STREAM, String.valueOf(AudioManager.STREAM_NOTIFICATION));
-            mTTS.playSilence(1500, TextToSpeech.QUEUE_ADD, hash);
+            //mTTS.playSilence(1500, TextToSpeech.QUEUE_ADD, hash);
             mTTS.speak(text1, TextToSpeech.QUEUE_ADD, hash);
             mTTS.playSilence(700, TextToSpeech.QUEUE_ADD, hash);
 
@@ -104,12 +111,7 @@ public class NotificationSpeaker implements TextToSpeech.OnInitListener {
     private AudioManager.OnAudioFocusChangeListener audioFocusListener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(int focusChange) {
-            if (focusChange==AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                Log.e("DEBUG", ">>>>gained!");
-                speak(mText1, mText2, mText3, true);
-            } else {
-                Log.e("DEBUG", ">>>" + focusChange);
-            }
+
         }
     };
 

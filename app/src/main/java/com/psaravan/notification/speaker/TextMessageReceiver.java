@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
 import android.util.Log;
@@ -54,11 +55,18 @@ public class TextMessageReceiver extends BroadcastReceiver {
         if (mAudioManager.isWiredHeadsetOn()==false)
             return;
 
-        String text1 = mContext.getString(R.string.new_message_from) + " " + getContactName(sender) + ".";
-        String text2 = messageBody + ".";
+        final String text1 = mContext.getString(R.string.new_message_from) + " " + getContactName(sender) + ".";
+        final String text2 = messageBody + ".";
 
-        if (LocalApp.getForegroundService()!=null)
-            LocalApp.getForegroundService().getNotificationSpeaker().speak(text1, text2, null);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                if (LocalApp.getForegroundService()!=null)
+                    LocalApp.getForegroundService().getNotificationSpeaker().speak(text1, text2, null);
+            }
+        }, 3000);
     }
 
     private String getContactName(String phone){
