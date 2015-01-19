@@ -105,7 +105,7 @@ public class NotificationSpeaker implements TextToSpeech.OnInitListener {
         @Override
         public void onAudioFocusChange(int focusChange) {
             if (focusChange==AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                Log.e("DEBUG", ">>>gained!");
+                Log.e("DEBUG", ">>>>gained!");
                 speak(mText1, mText2, mText3, true);
             } else {
                 Log.e("DEBUG", ">>>" + focusChange);
